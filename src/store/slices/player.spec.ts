@@ -40,7 +40,7 @@ describe('player slice', () => {
     expect(state.currentModuleIndex).toEqual(0)
     expect(state.currentLessonIndex).toEqual(1)
   })
-  
+
   it('should be able to jump to the next module automatically', () => {
     const state = reducer({
       ...exampleState,
@@ -49,6 +49,17 @@ describe('player slice', () => {
 
     expect(state.currentModuleIndex).toEqual(1)
     expect(state.currentLessonIndex).toEqual(0)
+  })
+
+  it('should not update the current module and lesson index if there is not next lesson available', () => {
+    const state = reducer({
+      ...exampleState,
+      currentModuleIndex: 1,
+      currentLessonIndex: 1
+    }, next())
+
+    expect(state.currentModuleIndex).toEqual(1)
+    expect(state.currentLessonIndex).toEqual(1)
   })
 
 });
