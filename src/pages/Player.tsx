@@ -1,29 +1,23 @@
 import { MessageCircle } from "lucide-react";
-import { useAppDispatch, useAppSelector } from "../store";
 
-
-import { useCurrentLesson } from "../store/slices/player";
+import { useCurrentLesson, useStore } from "../zustand-store";
 import { useEffect } from "react";
 
 import { Header } from "../components/Header";
 import { Video } from "../components/Video";
 import { Module } from "../components/Module";
 
-import { loadCourse } from "../store/slices/player";
 
 export function Player() {
 
-  const dispatch = useAppDispatch()
-
-  const modules = useAppSelector(state => {
-    return state.player.course?.modules;
-  })
+  const { course, load } = useStore()
 
   const { currentLesson } = useCurrentLesson()
 
   useEffect(() => {
-      dispatch(loadCourse())
+    load()
   }, []);
+  // console.log(course)
  
   useEffect(() => {
     if (currentLesson) {
@@ -47,8 +41,8 @@ export function Player() {
           <div className="flex-1">
             <Video />
           </div>
-          <aside className="w-80 absolute top-0 bottom-0 right-0 border-l divide-y-2 divide-zinc-900 border-zinc-800 bg-zinc-900 overflow-y-scroll scrollbar scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800">
-          {modules && modules.map((module, index) => {
+          <aside className="w-80 absolute top-0 bottom-0 right-0 border-l divide-y-2 divide-zinc-900 border-zinc-800 bg-zinc-900 overflow-y-scroll  scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800">
+          {course?.modules && course?.modules.map((module, index) => {
               return (
                 <Module
                   key={module.id}
