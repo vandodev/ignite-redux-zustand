@@ -52,4 +52,19 @@ describe('zustand store', () => {
         expect(currentModuleIndex).toEqual(0);
         expect(currentLessonIndex).toEqual(1);
       })
+
+      it('should be able to jump to the next module automatically', () => {
+        store.setState({ course })
+    
+        const { next } = store.getState()
+    
+        store.setState({ currentLessonIndex: 1 })
+    
+        next()
+    
+        const { currentModuleIndex, currentLessonIndex } = store.getState()
+    
+        expect(currentModuleIndex).toEqual(1)
+        expect(currentLessonIndex).toEqual(0)
+      })
 })
