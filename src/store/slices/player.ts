@@ -1,6 +1,5 @@
-import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice} from "@reduxjs/toolkit";
 import { useAppSelector } from "..";
-import { api } from "../../lib/axios";
 
 interface Course {
   id: number
@@ -29,14 +28,7 @@ const initialState: PlayerState = {
   isLoading: false,
 }
 
-export const loadCourse = createAsyncThunk(
-  'player/load',
-  async () => {
-    const response = await api.get('/courses/1')
 
-    return response.data
-  }
-)
 
 export const playerSlice = createSlice({
   name: "player",
@@ -65,15 +57,7 @@ export const playerSlice = createSlice({
       }
     }
   },
-  extraReducers(builder) {
-    builder.addCase(loadCourse.pending, (state) => {
-      state.isLoading = true
-    })
-    builder.addCase(loadCourse.fulfilled, (state, action) => {
-      state.course = action.payload
-      state.isLoading = false
-    })
-  },
+ 
 })
 
 export const player = playerSlice.reducer;
